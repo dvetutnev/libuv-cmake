@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 project(libuv C)
 
 option(LIBUV_BUILD_TESTS "builds libuv tests and benchmarks if set to ON" OFF)
 
 set(LIBUVDIR libuv)
 
-include_directories(${LIBUVDIR}/include ${LIBUVDIR}/src)
 set(SOURCES
     ${LIBUVDIR}/include/uv.h
     ${LIBUVDIR}/include/tree.h
@@ -20,11 +19,9 @@ set(SOURCES
     ${LIBUVDIR}/src/uv-common.c
     ${LIBUVDIR}/src/uv-common.h
     ${LIBUVDIR}/src/version.c
-    )
+)
 
 if(WIN32)
-    add_definitions(-DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0x0600 -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS)
-    include_directories(${LIBUVDIR}/src/win)
     set (SOURCES ${SOURCES}
         ${LIBUVDIR}/include/uv-win.h
         ${LIBUVDIR}/src/win/async.c
@@ -59,13 +56,26 @@ if(WIN32)
         ${LIBUVDIR}/src/win/winapi.h
         ${LIBUVDIR}/src/win/winsock.c
         ${LIBUVDIR}/src/win/winsock.h    
-        )
+	)
 
     add_library(uv ${SOURCES})
-    target_link_libraries(uv ws2_32 psapi iphlpapi shell32 userenv)
+    if (MSVC)
+        target_compile_definitions(
+            uv
+            PUBLIC
+            -DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0x0600 -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS
+        )
+        target_link_libraries(uv advapi32 iphlpapi psapi shell32 userenv ws2_32)
+    else()
+        target_compile_definitions(
+            uv
+            PUBLIC
+            -D_WIN32_WINNT=0x0600 -D_GNU_SOURCE
+            -ladvapi32 -liphlpapi -lpsapi -luserenv -lshell32 -lws2_32
+        )
+    endif()
 else()
     add_definitions(-g --std=gnu89 -pedantic -Wall -Wextra -Wno-unused-parameter -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64)
-    include_directories(${LIBUVDIR}/src/unix)
     set(SOURCES ${SOURCES}
         ${LIBUVDIR}/include/uv-unix.h
         ${LIBUVDIR}/include/uv-linux.h
@@ -197,6 +207,15 @@ else()
     endif()
 
 endif()
+
+target_include_directories(
+    uv
+    PRIVATE
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${LIBUVDIR}/include>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${LIBUVDIR}/src>
+    $<$<PLATFORM_ID:Windows>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${LIBUVDIR}/src/win>>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${LIBUVDIR}/src/unix>>
+)
 
 if(LIBUV_BUILD_TESTS)
     set (TEST_SOURCES
