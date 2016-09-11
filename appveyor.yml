@@ -21,6 +21,6 @@ before_build:
 
    cmake -A %PLATFORM% %APPVEYOR_BUILD_FOLDER%
 build:
-   project: build/$(PLATFORM)/Project.sln
+   project: build/$(PLATFORM)/libuv.sln
    parallel: true
    verbosity: minimal
