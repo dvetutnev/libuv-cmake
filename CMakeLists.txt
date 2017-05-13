@@ -27,6 +27,7 @@ if(WIN32)
         ${LIBUVDIR}/src/win/async.c
         ${LIBUVDIR}/src/win/atomicops-inl.h
         ${LIBUVDIR}/src/win/core.c
+        ${LIBUVDIR}/src/win/detect-wakeup.c
         ${LIBUVDIR}/src/win/dl.c
         ${LIBUVDIR}/src/win/error.c
         ${LIBUVDIR}/src/win/fs.c
@@ -45,6 +46,7 @@ if(WIN32)
         ${LIBUVDIR}/src/win/req.c
         ${LIBUVDIR}/src/win/req-inl.h
         ${LIBUVDIR}/src/win/signal.c
+        ${LIBUVDIR}/src/win/snprintf.c
         ${LIBUVDIR}/src/win/stream.c
         ${LIBUVDIR}/src/win/stream-inl.h
         ${LIBUVDIR}/src/win/tcp.c
@@ -55,7 +57,7 @@ if(WIN32)
         ${LIBUVDIR}/src/win/winapi.c
         ${LIBUVDIR}/src/win/winapi.h
         ${LIBUVDIR}/src/win/winsock.c
-        ${LIBUVDIR}/src/win/winsock.h    
+        ${LIBUVDIR}/src/win/winsock.h
 	)
 
     add_library(uv ${SOURCES})
