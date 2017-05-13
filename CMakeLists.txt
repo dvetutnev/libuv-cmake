@@ -116,6 +116,7 @@ else()
             ${LIBUVDIR}/src/unix/darwin.c
             ${LIBUVDIR}/src/unix/fsevents.c
             ${LIBUVDIR}/src/unix/darwin-proctitle.c
+            ${LIBUVDIR}/src/unix/pthread-barrier.c
             )
 
         #This is necessary to mute harmless warnings, as documented by https://github.com/libuv/libuv/issues/454
