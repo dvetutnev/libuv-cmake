@@ -1,5 +1,8 @@
 ## CMake build for libuv
 
+[![Build status](https://ci.appveyor.com/api/projects/status/gp50rv0s15fcovot?svg=true)](https://ci.appveyor.com/project/cpp4ever/libuv-cmake)
+[![Build Status](https://travis-ci.org/cpp4ever/libuv-cmake.svg?branch=master)](https://travis-ci.org/cpp4ever/libuv-cmake)
+
 **This is not officically supported by the libuv project, and issues encountered using this should NOT be reported to the libuv upstream project - instead report issues here.**
 
 This repository contains a CMakeLists.txt capable of building libuv without requiring the use of Autotools or GYP. It may be of use to projects which use CMake and want to take a dependency on libuv without requiring switching build systems to GYP, or using an `ExternalProject` in CMake. It is of particular use for people wanting completion from an IDE such as CLion, which relies on CMake as the project file format.

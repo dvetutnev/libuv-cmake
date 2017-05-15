@@ -150,7 +150,7 @@ IF (LIBUV_BUILD_TESTS)
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/*-server.c"
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/test-*.c"
    )
-   FILE(COPY "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/fixtures" DESTINATION test)
+   FILE(COPY "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/fixtures" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/test")
    ADD_EXECUTABLE(
       libuv-tests
       ${LIBUV_TEST_SOURCES}
