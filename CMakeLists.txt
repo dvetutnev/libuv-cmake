@@ -144,6 +144,8 @@ TARGET_LINK_LIBRARIES(
 
 OPTION(LIBUV_BUILD_TESTS "builds libuv tests and benchmarks if set to ON" OFF)
 IF (LIBUV_BUILD_TESTS)
+   ENABLE_TESTING()
+
    FILE(
       GLOB
       LIBUV_TEST_SOURCES
