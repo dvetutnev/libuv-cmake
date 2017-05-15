@@ -1,0 +1,17 @@
+os:
+- linux
+- osx
+
+language: c
+
+compiler:
+- gcc
+- clang
+
+script:
+- mkdir build
+- cd build
+- cmake .. -DLIBUV_BUILD_TESTS=ON && make && ctest --verbose
+
+notifications:
+   email: false

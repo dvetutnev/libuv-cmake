@@ -1,9 +1,12 @@
 version: 1.0.{build}
 
 image:
+- Visual Studio 2017
 - Visual Studio 2015
 - Visual Studio 2013
-configuration: Release
+configuration:
+- Debug
+- Release
 platform:
 - x64
 - Win32
@@ -12,13 +15,15 @@ install:
 - cmd: git submodule update --init --recursive
 
 before_build:
-- cmd: >-
-   IF EXIST "%APPVEYOR_BUILD_FOLDER%\build" (RMDIR /s /q "%APPVEYOR_BUILD_FOLDER%\build")
-
-   MKDIR "%APPVEYOR_BUILD_FOLDER%\build\%PLATFORM%"
-
-   CD "%APPVEYOR_BUILD_FOLDER%\build\%PLATFORM%"
-
-   cmake -A %PLATFORM% %APPVEYOR_BUILD_FOLDER%
+- ps: Remove-Item "$($env:APPVEYOR_BUILD_FOLDER)\build" -recurse
+- ps: New-Item -ItemType directory -Path "$($env:APPVEYOR_BUILD_FOLDER)\build"
+- ps: Set-Location "$($env:APPVEYOR_BUILD_FOLDER)\build"
+- ps: & cmake -A $($env:PLATFORM) $($env:APPVEYOR_BUILD_FOLDER) -DLIBUV_BUILD_TESTS=ON
 build:
-   project: $(APPVEYOR_BUILD_FOLDER)\build\$(PLATFORM)\libuv.sln
+   parallel: true
+   project: $(APPVEYOR_BUILD_FOLDER)\build\libuv.sln
+   verbosity: normal
+
+test_script:
+- ps: Set-Location "$($env:APPVEYOR_BUILD_FOLDER)\build"
+- ps: & ctest --verbose
