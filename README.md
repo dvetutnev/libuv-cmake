@@ -9,16 +9,16 @@ This repository contains a CMakeLists.txt capable of building libuv without requ
 
 It is currently known to work on Mac OS X, Linux and Solaris, though it may also work on Windows (untested as I don't have easy access to a Windows box).
 
-The position from the UV maintainers appears to be that there will not be a supported CMake build added. I will try to maintain this as new stable versions of libuv are released, as it is used in my own projects. The current version is **v1.6.1**.
+The position from the UV maintainers appears to be that there will not be a supported CMake build added. I will try to maintain this as new stable versions of libuv are released, as it is used in my own projects. The current version is **v1.10.2**.
 
 ### Usage
 
 - Add this repository as a submodules (libuv itself is pulled in as a submodule of this repository), or archive the contents of this repository and it's submodules and copy them into your own project. Always use the branch corresponding to the libuv version being targeted.
 - Add lines similar to the following to your `CMakeLists.txt` file:
 
-```cmake    
-add_subdirectory(vendor/libuv)
-include_directories(vendor/libuv/libuv-1.6.1/include)
+```cmake
+add_subdirectory(vendor/libuv-cmake)
+include_directories(vendor/libuv-cmake/libuv/include)
 ```
 - The `uv` target is produced by the `CMakeLists.txt` file - it can be linked using the following:
 
