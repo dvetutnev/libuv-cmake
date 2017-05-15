@@ -2,6 +2,14 @@ os:
 - linux
 - osx
 
+sudo: require
+dist: trusty
+
+addons:
+   apt:
+      packages:
+      - cmake
+
 language: c
 
 compiler:

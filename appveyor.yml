@@ -18,7 +18,7 @@ before_build:
 - ps: Remove-Item "$($env:APPVEYOR_BUILD_FOLDER)\build" -recurse
 - ps: New-Item -ItemType directory -Path "$($env:APPVEYOR_BUILD_FOLDER)\build"
 - ps: Set-Location "$($env:APPVEYOR_BUILD_FOLDER)\build"
-- ps: & cmake -A $($env:PLATFORM) $($env:APPVEYOR_BUILD_FOLDER) -DLIBUV_BUILD_TESTS=ON
+- ps: '& cmake -A $($env:PLATFORM) $($env:APPVEYOR_BUILD_FOLDER) -DLIBUV_BUILD_TESTS=ON'
 build:
    parallel: true
    project: $(APPVEYOR_BUILD_FOLDER)\build\libuv.sln
@@ -26,4 +26,4 @@ build:
 
 test_script:
 - ps: Set-Location "$($env:APPVEYOR_BUILD_FOLDER)\build"
-- ps: & ctest --verbose
+- ps: '& ctest --verbose'
