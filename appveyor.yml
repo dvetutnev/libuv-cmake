@@ -25,4 +25,4 @@ build:
 
 test_script:
 - ps: Set-Location "$($env:APPVEYOR_BUILD_FOLDER)\build"
-- ps: '& ctest --verbose'
+- ps: '& ctest -C $($env:CONFIGURATION) --verbose'
