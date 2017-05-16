@@ -69,25 +69,30 @@ ADD_LIBRARY(
 TARGET_COMPILE_DEFINITIONS(
    uv
    PRIVATE
-
    _GNU_SOURCE
 
+   # *nix
    $<$<NOT:$<PLATFORM_ID:Windows>>:_FILE_OFFSET_BITS=64>
    $<$<NOT:$<PLATFORM_ID:Windows>>:_LARGEFILE_SOURCE>
 
+   # AIX
    $<$<PLATFORM_ID:AIX>:_ALL_SOURCE>
    $<$<PLATFORM_ID:AIX>:_LINUX_SOURCE_COMPAT>
    $<$<PLATFORM_ID:AIX>:_THREAD_SAFE>
    $<$<PLATFORM_ID:AIX>:_XOPEN_SOURCE=500>
 
+   # Darwin
    $<$<PLATFORM_ID:Darwin>:_DARWIN_UNLIMITED_SELECT=1>
    $<$<PLATFORM_ID:Darwin>:_DARWIN_USE_64_BIT_INODE=1>
 
+   # Linux
    $<$<PLATFORM_ID:Linux>:_POSIX_C_SOURCE=200112>
 
+   # SunOS
    $<$<PLATFORM_ID:SunOS>:__EXTENSIONS__>
    $<$<PLATFORM_ID:SunOS>:_XOPEN_SOURCE=500>
 
+   # Windows
    $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
    $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
    $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
@@ -107,33 +112,44 @@ TARGET_INCLUDE_DIRECTORIES(
     PRIVATE
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/include>"
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src>"
-    "$<$<PLATFORM_ID:Windows>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src/win>>"
+
+    # *nix
     "$<$<NOT:$<PLATFORM_ID:Windows>>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src/unix>>"
+
+    # Windows
+    "$<$<PLATFORM_ID:Windows>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src/win>>"
 )
 TARGET_LINK_LIBRARIES(
    uv
    PRIVATE
-
    ${CMAKE_THREAD_LIBS_INIT}
 
+   # *nix
    $<$<NOT:$<PLATFORM_ID:Windows>>:m>
 
+   # AIX
    $<$<PLATFORM_ID:AIX>:perfstat>
 
+   # FreeBSD
    $<$<PLATFORM_ID:FreeBSD>:kvm>
 
+   # Linux
    $<$<PLATFORM_ID:Linux>:dl>
    $<$<PLATFORM_ID:Linux>:rt>
 
+   # NetBSD
    $<$<PLATFORM_ID:NetBSD>:kvm>
 
+   # OpenBSD
    $<$<PLATFORM_ID:OpenBSD>:kvm>
 
+   # SunOS
    $<$<PLATFORM_ID:SunOS>:kstat>
    $<$<PLATFORM_ID:SunOS>:nsl>
    $<$<PLATFORM_ID:SunOS>:sendfile>
    $<$<PLATFORM_ID:SunOS>:socket>
 
+   # Windows
    $<$<PLATFORM_ID:Windows>:advapi32>
    $<$<PLATFORM_ID:Windows>:iphlpapi>
    $<$<PLATFORM_ID:Windows>:psapi>
@@ -158,21 +174,28 @@ IF (LIBUV_BUILD_TESTS)
       ${LIBUV_TEST_SOURCES}
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/run-tests.c"
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner.c"
-      "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner-win.c>"
+
+      # *nix
       "$<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner-unix.c>"
+
+      # Windows
+      "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/src/win/snprintf.c>"
+      "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner-win.c>"
    )
    TARGET_COMPILE_DEFINITIONS(
       libuv-tests
       PRIVATE
-
       _GNU_SOURCE
 
+      # AIX
       $<$<PLATFORM_ID:AIX>:_ALL_SOURCE>
       $<$<PLATFORM_ID:AIX>:_XOPEN_SOURCE=500>
 
+      # SunOS
       $<$<PLATFORM_ID:SunOS>:__EXTENSIONS__>
       $<$<PLATFORM_ID:SunOS>:_XOPEN_SOURCE=500>
 
+      # Windows
       $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
       $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
       $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
@@ -197,7 +220,10 @@ IF (LIBUV_BUILD_TESTS)
       libuv-tests
       uv
 
+      # *nix
       $<$<NOT:$<PLATFORM_ID:Windows>>:util>
+
+      # Windows
       $<$<PLATFORM_ID:Windows>:ws2_32>
    )
    ADD_TEST(
@@ -217,13 +243,17 @@ IF (LIBUV_BUILD_TESTS)
       ${LIBUV_BENCHMARK_SOURCES}
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/run-benchmarks.c"
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner.c"
-      "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner-win.c>"
+
+      # *nix
       "$<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner-unix.c>"
+
+      # Windows
+      "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/src/win/snprintf.c>"
+      "$<$<PLATFORM_ID:Windows>:${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner-win.c>"
    )
    TARGET_COMPILE_DEFINITIONS(
       libuv-benchmarks
       PRIVATE
-
       _GNU_SOURCE
 
       $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
@@ -250,12 +280,10 @@ IF (LIBUV_BUILD_TESTS)
       libuv-benchmarks
       uv
 
+      # *nix
       $<$<NOT:$<PLATFORM_ID:Windows>>:util>
+
+      # Windows
       $<$<PLATFORM_ID:Windows>:ws2_32>
-   )
-   ADD_TEST(
-      NAME run-libuv-benchmarks
-      COMMAND libuv-benchmarks
-      WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
    )
 ENDIF()
