@@ -105,7 +105,7 @@ TARGET_COMPILE_OPTIONS(
    $<$<CXX_COMPILER_ID:AppleClang>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter>
    $<$<CXX_COMPILER_ID:Clang>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing>
    $<$<CXX_COMPILER_ID:GNU>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing>
-   $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /sdl /W3 /Zi>
+   $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
 )
 TARGET_INCLUDE_DIRECTORIES(
     uv
@@ -208,7 +208,7 @@ IF (LIBUV_BUILD_TESTS)
       $<$<CXX_COMPILER_ID:AppleClang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter>
       $<$<CXX_COMPILER_ID:Clang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
       $<$<CXX_COMPILER_ID:GNU>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
-      $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /sdl /W3 /Zi>
+      $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
    )
    TARGET_INCLUDE_DIRECTORIES(
       libuv-tests
@@ -268,7 +268,7 @@ IF (LIBUV_BUILD_TESTS)
       $<$<CXX_COMPILER_ID:AppleClang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter>
       $<$<CXX_COMPILER_ID:Clang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
       $<$<CXX_COMPILER_ID:GNU>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
-      $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /sdl /W3 /Zi>
+      $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
    )
    TARGET_INCLUDE_DIRECTORIES(
       libuv-benchmarks
