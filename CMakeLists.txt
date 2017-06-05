@@ -37,6 +37,7 @@ ADD_LIBRARY(
    "$<$<PLATFORM_ID:AIX>:${LIBUV_DIR}/src/unix/aix.c>"
 
    # Darwin
+   "$<$<PLATFORM_ID:Darwin>:${LIBUV_DIR}/src/unix/bsd-ifaddrs.c>"
    "$<$<PLATFORM_ID:Darwin>:${LIBUV_DIR}/src/unix/darwin.c>"
    "$<$<PLATFORM_ID:Darwin>:${LIBUV_DIR}/src/unix/darwin-proctitle.c>"
    "$<$<PLATFORM_ID:Darwin>:${LIBUV_DIR}/src/unix/fsevents.c>"
@@ -45,22 +46,32 @@ ADD_LIBRARY(
    "$<$<PLATFORM_ID:Darwin>:${LIBUV_DIR}/src/unix/pthread-barrier.c>"
 
    # FreeBSD
+   "$<$<PLATFORM_ID:FreeBSD>:${LIBUV_DIR}/src/unix/bsd-ifaddrs.c>"
    "$<$<PLATFORM_ID:FreeBSD>:${LIBUV_DIR}/src/unix/freebsd.c>"
    "$<$<PLATFORM_ID:FreeBSD>:${LIBUV_DIR}/src/unix/kqueue.c>"
+   "$<$<PLATFORM_ID:FreeBSD>:${LIBUV_DIR}/src/unix/posix-hrtime.c>"
 
    # Linux
+   "$<$<PLATFORM_ID:Linux>:${LIBUV_DIR}/src/unix/procfs-exepath.c>"
    "$<$<PLATFORM_ID:Linux>:${LIBUV_DIR}/src/unix/proctitle.c>"
+   "$<$<PLATFORM_ID:Linux>:${LIBUV_DIR}/src/unix/sysinfo-loadavg.c>"
+   "$<$<PLATFORM_ID:Linux>:${LIBUV_DIR}/src/unix/sysinfo-memory.c>"
    $<$<PLATFORM_ID:Linux>:${LIBUV_LINUX_SOURCES}>
 
    # NetBSD
+   "$<$<PLATFORM_ID:NetBSD>:${LIBUV_DIR}/src/unix/bsd-ifaddrs.c>"
    "$<$<PLATFORM_ID:NetBSD>:${LIBUV_DIR}/src/unix/kqueue.c>"
    "$<$<PLATFORM_ID:NetBSD>:${LIBUV_DIR}/src/unix/netbsd.c>"
+   "$<$<PLATFORM_ID:NetBSD>:${LIBUV_DIR}/src/unix/posix-hrtime.c>"
 
    # OpenBSD
+   "$<$<PLATFORM_ID:OpenBSD>:${LIBUV_DIR}/src/unix/bsd-ifaddrs.c>"
    "$<$<PLATFORM_ID:OpenBSD>:${LIBUV_DIR}/src/unix/kqueue.c>"
    "$<$<PLATFORM_ID:OpenBSD>:${LIBUV_DIR}/src/unix/openbsd.c>"
+   "$<$<PLATFORM_ID:OpenBSD>:${LIBUV_DIR}/src/unix/posix-hrtime.c>"
 
    # SunOS
+   "$<$<PLATFORM_ID:SunOS>:${LIBUV_DIR}/src/unix/no-proctitle.c>"
    "$<$<PLATFORM_ID:SunOS>:${LIBUV_DIR}/src/unix/sunos.c>"
 
    # Windows

@@ -9,7 +9,7 @@ This repository contains a CMakeLists.txt capable of building libuv without requ
 
 It is currently known to work on Mac OS X, Linux and Solaris, though it may also work on Windows (untested as I don't have easy access to a Windows box).
 
-The position from the UV maintainers appears to be that there will not be a supported CMake build added. I will try to maintain this as new stable versions of libuv are released, as it is used in my own projects. The current version is **v1.10.2**.
+The position from the UV maintainers appears to be that there will not be a supported CMake build added. I will try to maintain this as new stable versions of libuv are released, as it is used in my own projects. The current version is **v1.12.0**.
 
 ### Usage
 
