@@ -11,6 +11,7 @@ FILE(GLOB LIBUV_WINDOWS_SOURCES "${LIBUV_DIR}/src/win/*.c")
 
 ADD_LIBRARY(
    uv
+
    ${LIBUV_COMMON_SOURCES}
 
    # *nix
@@ -79,94 +80,97 @@ ADD_LIBRARY(
 )
 TARGET_COMPILE_DEFINITIONS(
    uv
+
    PRIVATE
-   _GNU_SOURCE
+      _GNU_SOURCE
 
-   # *nix
-   $<$<NOT:$<PLATFORM_ID:Windows>>:_FILE_OFFSET_BITS=64>
-   $<$<NOT:$<PLATFORM_ID:Windows>>:_LARGEFILE_SOURCE>
+      # *nix
+      $<$<NOT:$<PLATFORM_ID:Windows>>:_FILE_OFFSET_BITS=64>
+      $<$<NOT:$<PLATFORM_ID:Windows>>:_LARGEFILE_SOURCE>
 
-   # AIX
-   $<$<PLATFORM_ID:AIX>:_ALL_SOURCE>
-   $<$<PLATFORM_ID:AIX>:_LINUX_SOURCE_COMPAT>
-   $<$<PLATFORM_ID:AIX>:_THREAD_SAFE>
-   $<$<PLATFORM_ID:AIX>:_XOPEN_SOURCE=500>
+      # AIX
+      $<$<PLATFORM_ID:AIX>:_ALL_SOURCE>
+      $<$<PLATFORM_ID:AIX>:_LINUX_SOURCE_COMPAT>
+      $<$<PLATFORM_ID:AIX>:_THREAD_SAFE>
+      $<$<PLATFORM_ID:AIX>:_XOPEN_SOURCE=500>
 
-   # Darwin
-   $<$<PLATFORM_ID:Darwin>:_DARWIN_UNLIMITED_SELECT=1>
-   $<$<PLATFORM_ID:Darwin>:_DARWIN_USE_64_BIT_INODE=1>
+      # Darwin
+      $<$<PLATFORM_ID:Darwin>:_DARWIN_UNLIMITED_SELECT=1>
+      $<$<PLATFORM_ID:Darwin>:_DARWIN_USE_64_BIT_INODE=1>
 
-   # Linux
-   $<$<PLATFORM_ID:Linux>:_POSIX_C_SOURCE=200112>
+      # Linux
+      $<$<PLATFORM_ID:Linux>:_POSIX_C_SOURCE=200112>
 
-   # SunOS
-   $<$<PLATFORM_ID:SunOS>:__EXTENSIONS__>
-   $<$<PLATFORM_ID:SunOS>:_XOPEN_SOURCE=500>
+      # SunOS
+      $<$<PLATFORM_ID:SunOS>:__EXTENSIONS__>
+      $<$<PLATFORM_ID:SunOS>:_XOPEN_SOURCE=500>
 
-   # Windows
-   $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
-   $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
-   $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
-   $<$<PLATFORM_ID:Windows>:_WIN32_WINNT=0x0600>
+      # Windows
+      $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
+      $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
+      $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
+      $<$<PLATFORM_ID:Windows>:_WIN32_WINNT=0x0600>
 )
 TARGET_COMPILE_OPTIONS(
    uv
-   PRIVATE
 
-   $<$<CXX_COMPILER_ID:AppleClang>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter>
-   $<$<CXX_COMPILER_ID:Clang>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing>
-   $<$<CXX_COMPILER_ID:GNU>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing>
-   $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
+   PRIVATE
+      $<$<CXX_COMPILER_ID:AppleClang>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter>
+      $<$<CXX_COMPILER_ID:Clang>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing>
+      $<$<CXX_COMPILER_ID:GNU>:-g -fPIC -fvisibility=hidden -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing>
+      $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
 )
 TARGET_INCLUDE_DIRECTORIES(
-    uv
-    PRIVATE
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/include>"
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src>"
+   uv
 
-    # *nix
-    "$<$<NOT:$<PLATFORM_ID:Windows>>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src/unix>>"
+   PRIVATE
+      "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/include>"
+      "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src>"
 
-    # Windows
-    "$<$<PLATFORM_ID:Windows>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src/win>>"
+      # *nix
+      "$<$<NOT:$<PLATFORM_ID:Windows>>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src/unix>>"
+
+      # Windows
+      "$<$<PLATFORM_ID:Windows>:$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/src/win>>"
 )
 TARGET_LINK_LIBRARIES(
    uv
+
    PRIVATE
-   ${CMAKE_THREAD_LIBS_INIT}
+      ${CMAKE_THREAD_LIBS_INIT}
 
-   # *nix
-   $<$<NOT:$<PLATFORM_ID:Windows>>:m>
+      # *nix
+      $<$<NOT:$<PLATFORM_ID:Windows>>:m>
 
-   # AIX
-   $<$<PLATFORM_ID:AIX>:perfstat>
+      # AIX
+      $<$<PLATFORM_ID:AIX>:perfstat>
 
-   # FreeBSD
-   $<$<PLATFORM_ID:FreeBSD>:kvm>
+      # FreeBSD
+      $<$<PLATFORM_ID:FreeBSD>:kvm>
 
-   # Linux
-   $<$<PLATFORM_ID:Linux>:dl>
-   $<$<PLATFORM_ID:Linux>:rt>
+      # Linux
+      $<$<PLATFORM_ID:Linux>:dl>
+      $<$<PLATFORM_ID:Linux>:rt>
 
-   # NetBSD
-   $<$<PLATFORM_ID:NetBSD>:kvm>
+      # NetBSD
+      $<$<PLATFORM_ID:NetBSD>:kvm>
 
-   # OpenBSD
-   $<$<PLATFORM_ID:OpenBSD>:kvm>
+      # OpenBSD
+      $<$<PLATFORM_ID:OpenBSD>:kvm>
 
-   # SunOS
-   $<$<PLATFORM_ID:SunOS>:kstat>
-   $<$<PLATFORM_ID:SunOS>:nsl>
-   $<$<PLATFORM_ID:SunOS>:sendfile>
-   $<$<PLATFORM_ID:SunOS>:socket>
+      # SunOS
+      $<$<PLATFORM_ID:SunOS>:kstat>
+      $<$<PLATFORM_ID:SunOS>:nsl>
+      $<$<PLATFORM_ID:SunOS>:sendfile>
+      $<$<PLATFORM_ID:SunOS>:socket>
 
-   # Windows
-   $<$<PLATFORM_ID:Windows>:advapi32>
-   $<$<PLATFORM_ID:Windows>:iphlpapi>
-   $<$<PLATFORM_ID:Windows>:psapi>
-   $<$<PLATFORM_ID:Windows>:shell32>
-   $<$<PLATFORM_ID:Windows>:userenv>
-   $<$<PLATFORM_ID:Windows>:ws2_32>
+      # Windows
+      $<$<PLATFORM_ID:Windows>:advapi32>
+      $<$<PLATFORM_ID:Windows>:iphlpapi>
+      $<$<PLATFORM_ID:Windows>:psapi>
+      $<$<PLATFORM_ID:Windows>:shell32>
+      $<$<PLATFORM_ID:Windows>:userenv>
+      $<$<PLATFORM_ID:Windows>:ws2_32>
 )
 
 OPTION(LIBUV_BUILD_TESTS "builds libuv tests and benchmarks if set to ON" OFF)
@@ -182,6 +186,7 @@ IF (LIBUV_BUILD_TESTS)
    FILE(COPY "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/fixtures" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/test")
    ADD_EXECUTABLE(
       libuv-tests
+
       ${LIBUV_TEST_SOURCES}
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/run-tests.c"
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner.c"
@@ -195,40 +200,43 @@ IF (LIBUV_BUILD_TESTS)
    )
    TARGET_COMPILE_DEFINITIONS(
       libuv-tests
+
       PRIVATE
-      _GNU_SOURCE
+         _GNU_SOURCE
 
-      # AIX
-      $<$<PLATFORM_ID:AIX>:_ALL_SOURCE>
-      $<$<PLATFORM_ID:AIX>:_XOPEN_SOURCE=500>
+         # AIX
+         $<$<PLATFORM_ID:AIX>:_ALL_SOURCE>
+         $<$<PLATFORM_ID:AIX>:_XOPEN_SOURCE=500>
 
-      # SunOS
-      $<$<PLATFORM_ID:SunOS>:__EXTENSIONS__>
-      $<$<PLATFORM_ID:SunOS>:_XOPEN_SOURCE=500>
+         # SunOS
+         $<$<PLATFORM_ID:SunOS>:__EXTENSIONS__>
+         $<$<PLATFORM_ID:SunOS>:_XOPEN_SOURCE=500>
 
-      # Windows
-      $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
-      $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
-      $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
-      $<$<PLATFORM_ID:Windows>:_WIN32_WINNT=0x0600>
+         # Windows
+         $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
+         $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
+         $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
+         $<$<PLATFORM_ID:Windows>:_WIN32_WINNT=0x0600>
    )
    TARGET_COMPILE_OPTIONS(
       libuv-tests
-      PRIVATE
 
-      $<$<CXX_COMPILER_ID:AppleClang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter>
-      $<$<CXX_COMPILER_ID:Clang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
-      $<$<CXX_COMPILER_ID:GNU>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
-      $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
+      PRIVATE
+         $<$<CXX_COMPILER_ID:AppleClang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter>
+         $<$<CXX_COMPILER_ID:Clang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
+         $<$<CXX_COMPILER_ID:GNU>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
+         $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
    )
    TARGET_INCLUDE_DIRECTORIES(
       libuv-tests
+
       PRIVATE
-      "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/include>"
-      "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/test>"
+         "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/include>"
+         "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/test>"
    )
    TARGET_LINK_LIBRARIES(
       libuv-tests
+
       uv
 
       # *nix
@@ -251,6 +259,7 @@ IF (LIBUV_BUILD_TESTS)
    )
    ADD_EXECUTABLE(
       libuv-benchmarks
+
       ${LIBUV_BENCHMARK_SOURCES}
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/run-benchmarks.c"
       "${CMAKE_CURRENT_SOURCE_DIR}/libuv/test/runner.c"
@@ -264,31 +273,34 @@ IF (LIBUV_BUILD_TESTS)
    )
    TARGET_COMPILE_DEFINITIONS(
       libuv-benchmarks
-      PRIVATE
-      _GNU_SOURCE
 
-      $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
-      $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
-      $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
-      $<$<PLATFORM_ID:Windows>:_WIN32_WINNT=0x0600>
+      PRIVATE
+         _GNU_SOURCE
+
+         $<$<PLATFORM_ID:Windows>:_CRT_NONSTDC_NO_WARNINGS>
+         $<$<PLATFORM_ID:Windows>:_CRT_SECURE_NO_WARNINGS>
+         $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
+         $<$<PLATFORM_ID:Windows>:_WIN32_WINNT=0x0600>
    )
    TARGET_COMPILE_OPTIONS(
       libuv-benchmarks
-      PRIVATE
 
-      $<$<CXX_COMPILER_ID:AppleClang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter>
-      $<$<CXX_COMPILER_ID:Clang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
-      $<$<CXX_COMPILER_ID:GNU>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
-      $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
+      PRIVATE
+         $<$<CXX_COMPILER_ID:AppleClang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter>
+         $<$<CXX_COMPILER_ID:Clang>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
+         $<$<CXX_COMPILER_ID:GNU>:-g -pedantic -pipe --std=gnu89 -Wall -Wextra -Wno-long-long -Wno-unused-parameter -Wstrict-aliasing>
+         $<$<CXX_COMPILER_ID:MSVC>:/DEBUG:FULL /GR- /MP /wd4244 /wd4267 /Zi>
    )
    TARGET_INCLUDE_DIRECTORIES(
       libuv-benchmarks
+
       PRIVATE
-      "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/include>"
-      "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/test>"
+         "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/include>"
+         "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/libuv/test>"
    )
    TARGET_LINK_LIBRARIES(
       libuv-benchmarks
+
       uv
 
       # *nix

@@ -7,13 +7,13 @@
 
 This repository contains a CMakeLists.txt capable of building libuv without requiring the use of Autotools or GYP. It may be of use to projects which use CMake and want to take a dependency on libuv without requiring switching build systems to GYP, or using an `ExternalProject` in CMake. It is of particular use for people wanting completion from an IDE such as CLion, which relies on CMake as the project file format.
 
-It is currently known to work on Mac OS X, Linux and Solaris, though it may also work on Windows (untested as I don't have easy access to a Windows box).
+It is currently known to work on Mac OS X, Linux and Windows.
 
 The position from the UV maintainers appears to be that there will not be a supported CMake build added. I will try to maintain this as new stable versions of libuv are released, as it is used in my own projects. The current version is **v1.12.0**.
 
 ### Usage
 
-- Add this repository as a submodules (libuv itself is pulled in as a submodule of this repository), or archive the contents of this repository and it's submodules and copy them into your own project. Always use the branch corresponding to the libuv version being targeted.
+- Add this repository as a submodules (libuv itself is pulled in as a submodule of this repository), or archive the contents of this repository and it's submodules and copy them into your own project.
 - Add lines similar to the following to your `CMakeLists.txt` file:
 
 ```cmake
