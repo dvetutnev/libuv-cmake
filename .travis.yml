@@ -2,7 +2,7 @@ os:
 - linux
 - osx
 
-sudo: require
+sudo: false
 dist: trusty
 
 addons:
@@ -15,6 +15,11 @@ language: c
 compiler:
 - gcc
 - clang
+
+matrix:
+    exlude:
+        - os:       osx
+          compiler: gcc
 
 script:
 - mkdir build
