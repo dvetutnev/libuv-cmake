@@ -17,7 +17,7 @@ compiler:
 - clang
 
 matrix:
-    exlude:
+    exclude:
         - os:       osx
           compiler: gcc
 
